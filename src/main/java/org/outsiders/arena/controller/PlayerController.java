@@ -5,6 +5,7 @@ import org.outsiders.arena.domain.Player;
 import org.outsiders.arena.domain.PlayerMessage;
 import org.outsiders.arena.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +21,7 @@ public class PlayerController
     Player player;
     try
     {
-      player = this.playerService.findById(Integer.valueOf(message.getPlayerId())).get();
+      player = this.playerService.findByDisplayName(message.getDisplayName());
     }
     catch (Exception e)
     {
@@ -28,14 +29,15 @@ public class PlayerController
       player.setDisplayName(message.getDisplayName());
       player.setAvatarUrl(message.getAvatarUrl());
       int randomNum = ThreadLocalRandom.current().nextInt(0, 100000000);
-      if (message.getPlayerId() != 0) {
-        player.setId(message.getPlayerId());
-      } else {
-        player.setId(randomNum);
-      }
-      player.setCurrentArena(message.getCurrentArena());
-      player = this.playerService.save(player);
+      player.setId(randomNum);
     }
+    player.setCurrentArena(message.getCurrentArena());
+    player = this.playerService.save(player);
     return player;
+  }
+  
+  @RequestMapping(value={"/api/player/arena/{playerId}"}, method={org.springframework.web.bind.annotation.RequestMethod.GET})
+  public int getArenaForPlayer(@PathVariable int playerId) {
+  		return this.playerService.findById(playerId).get().getCurrentArena();
   }
 }

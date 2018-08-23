@@ -37,14 +37,13 @@ public class BattleMessageService {
     @Autowired
     protected NRG nrg;
 
-    public String handleMatchmakingMessage(Map valueMap, WebSocketSession session, List<WebSocketSession> sessions) {
-        Integer opponentId;
+    public String handleMatchmakingMessage(Map valueMap, Integer arenaId) {
         Battle savedBattle = null;
         Integer characterId1 = Integer.parseInt(valueMap.get("char1").toString());
         Integer characterId2 = Integer.parseInt(valueMap.get("char2").toString());
         Integer characterId3 = Integer.parseInt(valueMap.get("char3").toString());
         Integer playerId = valueMap.get("playerId").toString().length() > 0 ? Integer.valueOf(Integer.parseInt(valueMap.get("playerId").toString())) : null;
-        Integer n = opponentId = valueMap.get("opponentId").toString().length() > 0 ? Integer.valueOf(Integer.parseInt(valueMap.get("opponentId").toString())) : null;
+        Integer opponentId = valueMap.get("opponentId").toString().length() > 0 ? Integer.valueOf(Integer.parseInt(valueMap.get("opponentId").toString())) : null;
         if (opponentId != null) {
             Character c;
             ArrayList<CharacterInstance> list1 = new ArrayList<CharacterInstance>();
@@ -90,34 +89,34 @@ public class BattleMessageService {
                 return responseJson;
             }
             return "ERROR";
-        }
-        Battle battle = new Battle();
-        battle.setId(this.nrg.randomInt());
-        Integer uri = Integer.valueOf(session.getUri().toString().substring(7, 14));
-        battle.setArenaId(uri.intValue());
-        ArrayList<CharacterInstance> list1 = new ArrayList<CharacterInstance>();
-        CharacterInstance i1 = new CharacterInstance();
-        CharacterInstance i2 = new CharacterInstance();
-        CharacterInstance i3 = new CharacterInstance();
-        i1.setCharacterId(characterId1.intValue());
-        i2.setCharacterId(characterId2.intValue());
-        i3.setCharacterId(characterId3.intValue());
-        i1.setPlayerOneCharacter(true);
-        i2.setPlayerOneCharacter(true);
-        i3.setPlayerOneCharacter(true);
-        list1.add(i1);
-        list1.add(i2);
-        list1.add(i3);
-        battle.setPlayerOneTeam(list1);
-        battle.setPlayerIdOne(playerId.intValue());
-        if (battle.isPlayerOneStart()) {
-            battle.setPlayerOneEnergy(this.nrg.draw(1));
         } else {
-            battle.setPlayerOneEnergy(this.nrg.draw(3));
+	        Battle battle = new Battle();
+	        battle.setId(this.nrg.randomInt());
+	        battle.setArenaId(arenaId);
+	        ArrayList<CharacterInstance> list1 = new ArrayList<CharacterInstance>();
+	        CharacterInstance i1 = new CharacterInstance();
+	        CharacterInstance i2 = new CharacterInstance();
+	        CharacterInstance i3 = new CharacterInstance();
+	        i1.setCharacterId(characterId1.intValue());
+	        i2.setCharacterId(characterId2.intValue());
+	        i3.setCharacterId(characterId3.intValue());
+	        i1.setPlayerOneCharacter(true);
+	        i2.setPlayerOneCharacter(true);
+	        i3.setPlayerOneCharacter(true);
+	        list1.add(i1);
+	        list1.add(i2);
+	        list1.add(i3);
+	        battle.setPlayerOneTeam(list1);
+	        battle.setPlayerIdOne(playerId.intValue());
+	        if (battle.isPlayerOneStart()) {
+	            battle.setPlayerOneEnergy(this.nrg.draw(1));
+	        } else {
+	            battle.setPlayerOneEnergy(this.nrg.draw(3));
+	        }
+	        savedBattle = this.battleService.save(battle);
+	        LOG.info("SAVED BATTLE:: " + savedBattle.toString());
+	        return new Gson().toJson("WAITING FOR OPPONENTS");
         }
-        savedBattle = this.battleService.save(battle);
-        LOG.info("SAVED BATTLE:: " + savedBattle.toString());
-        return "WAITING FOR OPPONENTS";
     }
 
     public String handleEnergyTradeMessage(Map valueMap) {

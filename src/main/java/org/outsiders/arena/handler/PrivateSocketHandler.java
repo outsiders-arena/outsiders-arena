@@ -22,21 +22,35 @@ extends SocketHandler {
     protected WebSocketSession session;
 
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws InterruptedException, IOException {
-        for (WebSocketSession s : this.sessions) {
-            if (!s.getUri().equals(session.getUri())) continue;
-            this.session = session;
-            this.processMessage(session, message);
-        }
-        System.out.println(((Map)new Gson().fromJson((String)message.getPayload(), Map.class)).get("name"));
+        this.session = session;
+        this.processMessage(message);
     }
 
     public WebSocketSession getSession() {
         return this.session;
     }
 
-    public void processMessage(WebSocketSession webSocketSession, TextMessage message) throws InterruptedException, IOException {
-        Map valueMap = (Map)new Gson().fromJson((String)message.getPayload(), Map.class);
-        webSocketSession.sendMessage((WebSocketMessage)this.createTextMessage(valueMap));
+    public void processMessage(TextMessage message) throws InterruptedException, IOException {
+    	WebSocketMessage msg = this.createTextMessage(new Gson().fromJson((String)message.getPayload(), Map.class));
+    	
+    	boolean foundPlayer = false;
+    	
+        for (WebSocketSession s : sessions) {
+        	if (session.getUri().equals(s.getUri()) && !session.equals(s)) {
+        		LOG.info(session.getRemoteAddress().toString());
+        		LOG.info(session.getUri().toString());
+        		LOG.info(s.getRemoteAddress().toString());
+        		LOG.info(s.getUri().toString());
+        		session.sendMessage(msg);
+        		s.sendMessage(msg);
+        		foundPlayer = true;
+        	} 
+        }
+        if (foundPlayer) {
+        	
+        } else {
+        	session.sendMessage(msg);
+        }
     }
 
     public String processMapEntry(Map valueMap) {

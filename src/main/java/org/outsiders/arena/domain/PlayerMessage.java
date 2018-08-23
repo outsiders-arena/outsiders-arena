@@ -3,7 +3,6 @@ package org.outsiders.arena.domain;
 public class PlayerMessage
 {
   private String displayName;
-  private int playerId;
   private String avatarUrl;
   private int currentArena;
   
@@ -25,16 +24,6 @@ public class PlayerMessage
   public void setDisplayName(String displayName)
   {
     this.displayName = displayName;
-  }
-  
-  public int getPlayerId()
-  {
-    return this.playerId;
-  }
-  
-  public void setPlayerId(int playerId)
-  {
-    this.playerId = playerId;
   }
   
   public String getAvatarUrl()

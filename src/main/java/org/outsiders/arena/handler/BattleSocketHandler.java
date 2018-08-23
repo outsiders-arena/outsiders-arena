@@ -15,6 +15,7 @@ public class BattleSocketHandler
   @Autowired
   protected BattleMessageService battleMessageService;
   
+  @Override
   public String processMapEntry(Map valueMap)
   {
     StringBuilder response = new StringBuilder();
@@ -22,7 +23,8 @@ public class BattleSocketHandler
     {
     case "MATCH_MAKING": 
       this.LOG.info("Match Making...");
-      return this.battleMessageService.handleMatchmakingMessage(valueMap, session, sessions);
+      Integer arenaId = Integer.valueOf(session.getUri().toString().substring(7, 13));
+      return this.battleMessageService.handleMatchmakingMessage(valueMap, arenaId);
     case "ENERGY_TRADE": 
       this.LOG.info("Energy Trade");
       return null;

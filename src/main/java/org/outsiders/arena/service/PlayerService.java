@@ -7,6 +7,8 @@ public abstract interface PlayerService
 {
   public abstract Player save(Player paramPlayer);
   
+  public abstract Player findByDisplayName(String name) throws Exception;
+  
   public abstract Iterable<Player> saveAll(Iterable<Player> paramIterable);
   
   public abstract Optional<Player> findById(Integer paramInteger);

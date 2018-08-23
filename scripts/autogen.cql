@@ -9,7 +9,7 @@ CREATE TYPE outsiders_arena.effect (
     interruptable boolean,
     physical boolean,
     magical boolean,
-    statmods map<text, int>
+    statmods map<text, int>,
     qualitymods map<text, boolean>
 );
 
@@ -44,10 +44,10 @@ CREATE TABLE outsiders_arena.battle (
     arenaid int,
     playeridone int,
     playeridtwo int,
-    playeroneteam list<frozen<characterinstance>>;
-    playertwoteam list<frozen<characterinstance>>;
-    playeroneenergy list<text>;
-    playertwoenergy list<text>;
+    playeroneteam list<frozen<characterinstance>>,
+    playertwoteam list<frozen<characterinstance>>,
+    playeroneenergy list<text>,
+    playertwoenergy list<text>
 );
 
 
@@ -72,3 +72,6 @@ CREATE TABLE outsiders_arena.player (
     currentarena int,
     level int
 );
+
+CREATE INDEX player_currentarena on outsiders_arena.player (currentarena);
+CREATE INDEX battle_playeridone on outsiders_arena.battle (playeridone);

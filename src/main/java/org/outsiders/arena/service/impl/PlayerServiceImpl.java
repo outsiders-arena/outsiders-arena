@@ -19,6 +19,16 @@ public class PlayerServiceImpl
     return (Player)this.repo.save(entity);
   }
   
+  
+  public Player findByDisplayName(String name) throws Exception {
+	  for (Player p : repo.findAll()) {
+		  if (p.getDisplayName().equals(name)) {
+			  return p;
+		  }
+	  }
+	  throw new Exception("This shit blows");
+  };
+  
   public Iterable<Player> saveAll(Iterable<Player> entities)
   {
     return this.repo.saveAll(entities);
