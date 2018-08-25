@@ -12,6 +12,10 @@ public class Effect
   private boolean interruptable = false;
   private boolean physical = false;
   private boolean magical = false;
+  private boolean conditional = false;
+  // condition name, name of effect that holds the condition1
+  // front end should be able to figure out which effect belongs to who if duplicates
+  private Map<String, String> condition = Collections.emptyMap();
   private Map<String, Integer> statMods = Collections.emptyMap();
   private Map<String, Boolean> qualityMods = Collections.emptyMap();
   
@@ -33,8 +37,16 @@ public class Effect
   {
     this.name = name;
   }
-  
-  public void setInterruptable(boolean interruptable)
+
+	public boolean isConditional() {
+		return conditional;
+	}
+	
+	public void setConditional(boolean conditional) {
+		this.conditional = conditional;
+	}
+	
+	public void setInterruptable(boolean interruptable)
   {
     this.interruptable = interruptable;
   }
@@ -93,4 +105,13 @@ public class Effect
   {
     this.qualityMods = qualityMods;
   }
+
+
+public Map<String, String> getCondition() {
+	return condition;
+}
+
+public void setCondition(Map<String, String> condition) {
+	this.condition = condition;
+}
 }

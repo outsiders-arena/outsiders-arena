@@ -1,5 +1,6 @@
 package org.outsiders.arena.handler;
 
+import java.util.HashMap;
 import java.util.Map;
 import org.outsiders.arena.handler.BattleMessageService;
 import org.slf4j.Logger;
@@ -23,8 +24,7 @@ public class BattleSocketHandler
     {
     case "MATCH_MAKING": 
       this.LOG.info("Match Making...");
-      Integer arenaId = Integer.valueOf(session.getUri().toString().substring(7, 13));
-      return this.battleMessageService.handleMatchmakingMessage(valueMap, arenaId);
+      return this.battleMessageService.handleMatchmakingMessage(valueMap);
     case "ENERGY_TRADE": 
       this.LOG.info("Energy Trade");
       return null;

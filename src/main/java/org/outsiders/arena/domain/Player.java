@@ -10,7 +10,6 @@ public class Player
   private int id;
   private String avatarUrl;
   private String displayName;
-  private int currentArena;
   private int level;
   
   public int getId()
@@ -22,17 +21,7 @@ public class Player
   {
     this.id = id;
   }
-  
-  public int getCurrentArena()
-  {
-    return this.currentArena;
-  }
-  
-  public void setCurrentArena(int currentArena)
-  {
-    this.currentArena = currentArena;
-  }
-  
+
   public String getAvatarUrl()
   {
     return this.avatarUrl;

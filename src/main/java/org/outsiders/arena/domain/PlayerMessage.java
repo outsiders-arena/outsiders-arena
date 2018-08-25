@@ -4,17 +4,6 @@ public class PlayerMessage
 {
   private String displayName;
   private String avatarUrl;
-  private int currentArena;
-  
-  public int getCurrentArena()
-  {
-    return this.currentArena;
-  }
-  
-  public void setCurrentArena(int currentArena)
-  {
-    this.currentArena = currentArena;
-  }
   
   public String getDisplayName()
   {

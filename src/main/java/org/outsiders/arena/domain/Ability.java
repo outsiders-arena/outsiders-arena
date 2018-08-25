@@ -9,6 +9,7 @@ public class Ability
 {
   private int cooldown = 0;
   private String name;
+  private int originCharacter;
   private List<String> cost = Collections.singletonList("RANDOM");
   private List<Effect> selfEffects = Collections.emptyList();
   private List<Effect> enemyEffects = Collections.emptyList();
@@ -49,6 +50,15 @@ public class Ability
   {
     this.cooldown = cooldown;
   }
+  
+
+public int getOriginCharacter() {
+	return originCharacter;
+}
+
+public void setOriginCharacter(int originCharacter) {
+	this.originCharacter = originCharacter;
+}
   
   public List<String> getCost()
   {

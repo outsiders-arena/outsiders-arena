@@ -9,6 +9,7 @@ public class CharacterInstance
 {
   private int hp = 100;
   private boolean playerOneCharacter;
+  private int location;
   private int characterId;
   private List<Effect> effects = Collections.emptyList();
   private boolean dead = false;
@@ -77,4 +78,12 @@ public class CharacterInstance
   {
     this.effects = effects;
   }
+
+	public int getLocation() {
+		return location;
+	}
+	
+	public void setLocation(int location) {
+		this.location = location;
+	}
 }

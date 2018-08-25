@@ -7,6 +7,8 @@ public abstract interface BattleService
 {
   public abstract Battle getByPlayerId(int paramInt);
   
+  public abstract Battle getByPlayerDisplayName(String displayName);
+  
   public abstract Battle getByArenaId(int paramInt);
   
   public abstract Battle save(Battle paramBattle);

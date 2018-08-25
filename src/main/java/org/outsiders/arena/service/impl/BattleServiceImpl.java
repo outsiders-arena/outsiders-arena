@@ -2,8 +2,11 @@ package org.outsiders.arena.service.impl;
 
 import java.util.Optional;
 import org.outsiders.arena.domain.Battle;
+import org.outsiders.arena.domain.Player;
 import org.outsiders.arena.repository.BattleRepository;
+import org.outsiders.arena.repository.PlayerRepository;
 import org.outsiders.arena.service.BattleService;
+import org.outsiders.arena.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,9 @@ public class BattleServiceImpl
   @Autowired
   private BattleRepository repo;
   
+  @Autowired
+  private PlayerService playerService;
+  
   public Battle getByPlayerId(int id)
   {
     Iterable<Battle> battles = this.repo.findAll();
@@ -23,6 +29,17 @@ public class BattleServiceImpl
       }
     }
     return null;
+  }
+  
+  public Battle getByPlayerDisplayName(String name)
+  {
+	  Player player = playerService.findByDisplayName(name);
+	  for (Battle b : repo.findAll()) {
+		  if (b.getPlayerIdOne() == player.getId()) {
+			  return b;
+		  }
+	  }
+	  return null;
   }
   
   public Battle getByArenaId(int id)

@@ -1,6 +1,7 @@
 package org.outsiders.arena.bootstrap;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,7 +10,12 @@ import java.util.Map;
 import java.util.Set;
 import org.outsiders.arena.domain.Ability;
 import org.outsiders.arena.domain.Character;
+import org.outsiders.arena.domain.Conditional;
+import org.outsiders.arena.domain.Cost;
 import org.outsiders.arena.domain.Effect;
+import org.outsiders.arena.domain.Energy;
+import org.outsiders.arena.domain.Quality;
+import org.outsiders.arena.domain.Stat;
 import org.outsiders.arena.service.CharacterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,35 +64,221 @@ public class SeedData
     hollyanna.setAvatarUrl("TBD");
     shinzo.setAvatarUrl("TBD");
     
-    Ability as1 = new Ability(true, false, false, false);
-    as1.setCooldown(1);
-    as1.setName("Double Strike");
-    as1.setCost(Collections.singletonList("RANDOM"));
     
-    List<Effect> effs = new ArrayList();
-    Effect e1 = new Effect(true, true, true);
-    e1.setName("Impulse");
-    e1.setDuration(2);
+//    Ability as1 = new Ability(true, false, false, false);
+//    as1.setCooldown(1);
+//    as1.setName("Impulse");
+//    as1.setCost(Cost.oneRan);
+//    
+//    List<Effect> effs = new ArrayList();
+//    Effect e1 = new Effect(true, true, true);
+//    e1.setName("Impulse");
+//    e1.setDuration(3);
+//    Map<String, Integer> impDmg = new HashMap();
+//    impDmg.put(Stat.HP, Integer.valueOf(-10));
+//    e1.setStatMods(impDmg);
+//    effs.add(e1);
+//    
+//    as1.setEffects(effs);
+//    alex.setSlot1(as1);
+//    
+//    
+//    Ability as2 = new Ability(true, false, false, false);
+//    as2.setCooldown(1);
+//    as2.setName("Flash Freeze");
+//    as2.setCost(Cost.oneDexOneRan);
+//    
+//    List<Effect> effs2 = new ArrayList();
+//    Effect e2 = new Effect(true, true, true);
+//    e2.setName("Flash Freeze");
+//    e2.setDuration(1);
+//    Map<String, Integer> flaDmg = new HashMap();
+//    flaDmg.put(Stat.HP, Integer.valueOf(-30));
+//    e2.setStatMods(flaDmg);
+//    Effect e3 = new Effect(true, true, true);
+//    e3.setName("Flash Frozen");
+//    e3.setDuration(2);
+//    Map<String, Integer> flaRed = new HashMap();
+//    flaRed.put(Stat.DAMAGE, Integer.valueOf(-10));
+//    e2.setStatMods(flaRed);
+//    effs2.add(e2);
+//    effs2.add(e3);
+//    
+//    as2.setEffects(effs2);
+//    alex.setSlot2(as2);
+//    
+//    
+//    Ability as3 = new Ability(true, false, true, false);
+//    as3.setCooldown(2);
+//    as3.setName("Study Target");
+//    as3.setCost(Cost.twoRan);
+//    
+//    List<Effect> effs3 = new ArrayList();
+//    
+//    Effect e4 = new Effect(true, false, true);
+//    e4.setName("Study Target - Weakness");
+//    e4.setDuration(2);
+//    Map<String, Integer> stuBuf = new HashMap();
+//    stuBuf.put(Stat.DAMAGE, Integer.valueOf(10));
+//    e4.setConditional(true);
+//    // whoever this ability is on needs to meet this conditional
+//    e4.setCondition(Collections.singletonMap(Conditional.ATTACK, "Study Target"));
+//    e4.setStatMods(stuBuf);
+//    
+//    List<Effect> selfs2 = new ArrayList();
+//    
+//    Effect e4m = new Effect(true, false, true);
+//    e4m.setName("Study Target - Weakness");
+//    e4m.setDuration(2); 
+//    
+//    Effect e5 = new Effect(true, true, true);
+//    e5.setName("Study Target - Traps");
+//    e5.setDuration(2);
+//    Map<String, Boolean> stuRev = new HashMap();
+//    stuRev.put(Quality.REVEALED, true);
+//    e5.setQualityMods(stuRev);
+//    effs3.add(e4m);
+//    effs3.add(e5);
+//    
+//    selfs2.add(e4);
+//    
+//    as3.setEffects(effs3);
+//    as3.setSelfEffects(selfs2);
+//    alex.setSlot3(as3);
+//    
+//    
+//    Ability as4 = new Ability(false, false, true, false);
+//    as4.setCooldown(3);
+//    as4.setName("Stealth");
+//    as4.setCost(Cost.oneRan);
+//    
+//    List<Effect> selfs3 = new ArrayList();
+//    
+//    Effect e6 = new Effect(true, false, false);
+//    e6.setName("Invulnerable");
+//    e6.setQualityMods(Collections.singletonMap(Quality.INVULNERABLE, true));
+//    e6.setDuration(1); 
+//    
+//    selfs3.add(e6);
+//    
+//    as4.setSelfEffects(selfs3);
+//    
+//    alex.setSlot4(as4);
+    
+    Ability hs1 = new Ability(true, false, false, false);
+    hs1.setCooldown(1);
+    hs1.setName("Impulse");
+    hs1.setCost(Cost.oneRan);
+    
+    List<Effect> heffs1 = new ArrayList();
+    Effect he1 = new Effect(true, true, true);
+    he1.setName("Impulse");
+    he1.setDuration(3);
     Map<String, Integer> impDmg = new HashMap();
-    impDmg.put("HP", Integer.valueOf(-20));
-    e1.setStatMods(impDmg);
-    effs.add(e1);
-    as1.setEffects(effs);
     
-    List<Effect> selfs = new ArrayList();
-    Effect e2 = new Effect(false, true, true);
-    e2.setName("FlashFreeze");
+    he1.setStatMods(impDmg);
+    heffs1.add(he1);
+    
+    hs1.setEffects(heffs1);
+    alex.setSlot1(hs1);
+    
+    
+    Ability as2 = new Ability(true, false, false, false);
+    as2.setCooldown(1);
+    as2.setName("Flash Freeze");
+    as2.setCost(Cost.oneDexOneRan);
+    
+    List<Effect> effs2 = new ArrayList();
+    Effect e2 = new Effect(true, true, true);
+    e2.setName("Flash Freeze");
     e2.setDuration(1);
-    Map<String, Integer> impCombo = new HashMap();
-    impCombo.put("COMBO_SLOT", Integer.valueOf(1));
-    e2.setStatMods(impCombo);
-    selfs.add(e2);
+    Map<String, Integer> flaDmg = new HashMap();
+    flaDmg.put(Stat.HP, Integer.valueOf(-30));
+    e2.setStatMods(flaDmg);
+    Effect e3 = new Effect(true, true, true);
+    e3.setName("Flash Frozen");
+    e3.setDuration(2);
+    Map<String, Integer> flaRed = new HashMap();
+    flaRed.put(Stat.DAMAGE, Integer.valueOf(-10));
+    e2.setStatMods(flaRed);
+    effs2.add(e2);
+    effs2.add(e3);
     
-    as1.setSelfEffects(selfs);
+    as2.setEffects(effs2);
+    alex.setSlot2(as2);
     
-    alex.setSlot1(as1);
+    
+    Ability as3 = new Ability(true, false, true, false);
+    as3.setCooldown(2);
+    as3.setName("Study Target");
+    as3.setCost(Cost.twoRan);
+    
+    List<Effect> effs3 = new ArrayList();
+    
+    Effect e4 = new Effect(true, false, true);
+    e4.setName("Study Target - Weakness");
+    e4.setDuration(2);
+    Map<String, Integer> stuBuf = new HashMap();
+    stuBuf.put(Stat.DAMAGE, Integer.valueOf(10));
+    e4.setConditional(true);
+    // whoever this ability is on needs to meet this conditional
+    e4.setCondition(Collections.singletonMap(Conditional.ATTACK, "Study Target"));
+    e4.setStatMods(stuBuf);
+    
+    List<Effect> selfs2 = new ArrayList();
+    
+    Effect e4m = new Effect(true, false, true);
+    e4m.setName("Study Target - Weakness");
+    e4m.setDuration(2); 
+    
+    Effect e5 = new Effect(true, true, true);
+    e5.setName("Study Target - Traps");
+    e5.setDuration(2);
+    Map<String, Boolean> stuRev = new HashMap();
+    stuRev.put(Quality.REVEALED, true);
+    e5.setQualityMods(stuRev);
+    effs3.add(e4m);
+    effs3.add(e5);
+    
+    selfs2.add(e4);
+    
+    as3.setEffects(effs3);
+    as3.setSelfEffects(selfs2);
+    alex.setSlot3(as3);
+    
+    
+    Ability as4 = new Ability(false, false, true, false);
+    as4.setCooldown(3);
+    as4.setName("Stealth");
+    as4.setCost(Cost.oneRan);
+    
+    List<Effect> selfs3 = new ArrayList();
+    
+    Effect e6 = new Effect(true, false, false);
+    e6.setName("Invulnerable");
+    e6.setQualityMods(Collections.singletonMap(Quality.INVULNERABLE, true));
+    e6.setDuration(1);
+    
+    selfs3.add(e6);
+    
+    as4.setSelfEffects(selfs3);
+    
+    alex.setSlot4(as4);
+    
+    
+    
+    
     
     Character c1 = this.characterService.save(alex);
+//    c1.getSlot1().getSelfEffects().forEach(e -> {
+//    	if (e.isConditional()) {
+//    		e.getCondition().forEach((condition, effectname) -> {
+//    			if (e.getOriginCharacter().equals(parentCharacterId)) {
+//    				
+//    			}
+//    		});
+//    	}
+//    });
     LOG.info(c1.toString());
     Character c2 = this.characterService.save(fainne);
     LOG.info(c2.toString());

@@ -20,13 +20,13 @@ public class PlayerServiceImpl
   }
   
   
-  public Player findByDisplayName(String name) throws Exception {
+  public Player findByDisplayName(String name){
 	  for (Player p : repo.findAll()) {
 		  if (p.getDisplayName().equals(name)) {
 			  return p;
 		  }
 	  }
-	  throw new Exception("This shit blows");
+	  return null;
   };
   
   public Iterable<Player> saveAll(Iterable<Player> entities)

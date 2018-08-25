@@ -7,8 +7,10 @@ CREATE TYPE outsiders_arena.effect (
     duration int,
     name text,
     interruptable boolean,
+    conditional boolean,
     physical boolean,
     magical boolean,
+    condition map<text, text>,
     statmods map<text, int>,
     qualitymods map<text, boolean>
 );
@@ -16,6 +18,7 @@ CREATE TYPE outsiders_arena.effect (
 CREATE TYPE outsiders_arena.characterinstance (
     hp int,
     playeronecharacter boolean,
+    location int,
     characterid int,
     dead boolean,
     highlighted boolean,
@@ -24,6 +27,7 @@ CREATE TYPE outsiders_arena.characterinstance (
 
 CREATE TYPE outsiders_arena.ability (
     cooldown int,
+    origincharacter int,
     name text,
     aoe boolean,
     self boolean,
