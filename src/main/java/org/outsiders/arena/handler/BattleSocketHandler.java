@@ -1,44 +1,65 @@
 package org.outsiders.arena.handler;
 
-import java.util.HashMap;
+import com.google.gson.Gson;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.net.URI;
+import java.util.List;
 import java.util.Map;
-import org.outsiders.arena.handler.BattleMessageService;
+import java.util.function.BiConsumer;
+import org.outsiders.arena.handler.SocketHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketMessage;
+import org.springframework.web.socket.WebSocketSession;
 
 @Service
-public class BattleSocketHandler
-  extends PrivateSocketHandler
-{
-  private Logger LOG = LoggerFactory.getLogger(BattleSocketHandler.class);
-  @Autowired
-  protected BattleMessageService battleMessageService;
-  
-  @Override
-  public String processMapEntry(Map valueMap)
-  {
-    StringBuilder response = new StringBuilder();
-    switch (valueMap.get("type").toString())
-    {
-    case "MATCH_MAKING": 
-      this.LOG.info("Match Making...");
-      return this.battleMessageService.handleMatchmakingMessage(valueMap);
-    case "ENERGY_TRADE": 
-      this.LOG.info("Energy Trade");
-      return null;
-    case "ABILITY_CHECK": 
-      this.LOG.info("Ability Check");
-      return null;
-    case "TARGET_CHECK": 
-      this.LOG.info("Target Check");
-      return null;
-    case "TURN_END": 
-      this.LOG.info("Turn End");
-      return null;
+public class PrivateSocketHandler
+extends SocketHandler {
+    public static Logger LOG = LoggerFactory.getLogger(PrivateSocketHandler.class);
+    protected WebSocketSession session;
+
+    public void handleTextMessage(WebSocketSession session, TextMessage message) throws InterruptedException, IOException {
+        this.session = session;
+        this.processMessage(message);
     }
-    this.LOG.info("Unrecognized Message");
-    return response.toString();
-  }
+
+    public WebSocketSession getSession() {
+        return this.session;
+    }
+
+    public void processMessage(TextMessage message) throws InterruptedException, IOException {
+    	WebSocketMessage msg = this.createTextMessage(new Gson().fromJson((String)message.getPayload(), Map.class));
+    	
+    	boolean foundPlayer = false;
+    	
+        for (WebSocketSession s : sessions) {
+        	if (session.getUri().equals(s.getUri()) && !session.equals(s)) {
+        		LOG.info(session.getRemoteAddress().toString());
+        		LOG.info(session.getUri().toString());
+        		LOG.info(s.getRemoteAddress().toString());
+        		LOG.info(s.getUri().toString());
+        		session.sendMessage(msg);
+        		s.sendMessage(msg);
+        		foundPlayer = true;
+        	} 
+        }
+        if (foundPlayer) {
+        	
+        } else {
+        	session.sendMessage(msg);
+        }
+    }
+
+    public String processMapEntry(Map valueMap) {
+        StringBuilder response = new StringBuilder();
+        valueMap.forEach((k, v) -> response.append(k.toString() + ": " + v.toString() + ", "));
+        return response.toString();
+    }
+
+    public TextMessage createTextMessage(Map valueMap) {
+        return new TextMessage((CharSequence)this.processMapEntry(valueMap));
+    }
 }
