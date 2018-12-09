@@ -9,7 +9,8 @@ public class Ability
 {
   private int cooldown = 0;
   private String name;
-  private int originCharacter;
+  private String abilityUrl;
+  private String description;
   private List<String> cost = Collections.singletonList("RANDOM");
   private List<Effect> selfEffects = Collections.emptyList();
   private List<Effect> enemyEffects = Collections.emptyList();
@@ -31,6 +32,8 @@ public class Ability
     this.aoe = aoe;
   }
   
+  
+  
   public String getName()
   {
     return this.name;
@@ -41,6 +44,8 @@ public class Ability
     this.name = name;
   }
   
+  
+  
   public int getCooldown()
   {
     return this.cooldown;
@@ -50,15 +55,6 @@ public class Ability
   {
     this.cooldown = cooldown;
   }
-  
-
-public int getOriginCharacter() {
-	return originCharacter;
-}
-
-public void setOriginCharacter(int originCharacter) {
-	this.originCharacter = originCharacter;
-}
   
   public List<String> getCost()
   {
@@ -159,4 +155,36 @@ public void setOriginCharacter(int originCharacter) {
   {
     return this.self;
   }
+
+public String getAbilityUrl() {
+	return abilityUrl;
+}
+
+public void setAbilityUrl(String abilityUrl) {
+	this.abilityUrl = abilityUrl;
+}
+
+public List<Effect> getEnemyEffects() {
+	return enemyEffects;
+}
+
+public void setEnemyEffects(List<Effect> enemyEffects) {
+	this.enemyEffects = enemyEffects;
+}
+
+public List<Effect> getAoeAllyEffects() {
+	return aoeAllyEffects;
+}
+
+public void setAoeAllyEffects(List<Effect> aoeAllyEffects) {
+	this.aoeAllyEffects = aoeAllyEffects;
+}
+
+public String getDescription() {
+	return description;
+}
+
+public void setDescription(String description) {
+	this.description = description;
+}
 }

@@ -9,6 +9,7 @@ public class CharacterInstance
 {
   private int hp = 100;
   private boolean playerOneCharacter;
+  // player 1 (1, 2, 3) player 2 (4, 5, 6)
   private int location;
   private int characterId;
   private List<Effect> effects = Collections.emptyList();

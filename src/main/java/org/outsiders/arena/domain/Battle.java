@@ -12,6 +12,7 @@ public class Battle
   private int id;
   private boolean playerOneStart = Math.random() % 2.0D == 0.0D;
   private String status;
+  private int turn = 0;
   private int arenaId;
   private int playerIdOne;
   private int playerIdTwo;
@@ -41,6 +42,8 @@ public class Battle
     }
     return true;
   }
+  
+  
   
   public String getStatus()
   {
@@ -142,8 +145,21 @@ public class Battle
     this.playerOneStart = playerOneStart;
   }
   
-  public String toString()
-  {
-    return "Battle [id=" + this.id + ", playerOneStart=" + this.playerOneStart + ", status=" + this.status + ", playerIdOne=" + this.playerIdOne + ", playerIdTwo=" + this.playerIdTwo + ", playerOneTeam=" + this.playerOneTeam + ", playerTwoTeam=" + this.playerTwoTeam + ", playerOneEnergy=" + this.playerOneEnergy + ", playerTwoEnergy=" + this.playerTwoEnergy + "]";
-  }
+
+
+public int getTurn() {
+	return turn;
+}
+
+public void setTurn(int turn) {
+	this.turn = turn;
+}
+
+@Override
+public String toString() {
+	return "Battle [playerOneStart=" + playerOneStart + ", turn=" + turn + ", arenaId=" + arenaId + ", playerIdOne="
+			+ playerIdOne + ", playerIdTwo=" + playerIdTwo + ", "
+			+ (playerOneEnergy != null ? "playerOneEnergy=" + playerOneEnergy + ", " : "")
+			+ (playerTwoEnergy != null ? "playerTwoEnergy=" + playerTwoEnergy : "") + "]";
+}
 }

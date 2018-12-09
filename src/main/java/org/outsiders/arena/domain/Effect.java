@@ -9,23 +9,37 @@ public class Effect
 {
   private int duration = 1;
   private String name;
+  private String condition;
+  private String quality;
+  private String description;
+  // only for effects on character instances (should be position based)
+  private int originCharacter;
+  private int targetCharacter;
   private boolean interruptable = false;
   private boolean physical = false;
   private boolean magical = false;
   private boolean conditional = false;
-  // condition name, name of effect that holds the condition1
-  // front end should be able to figure out which effect belongs to who if duplicates
-  private Map<String, String> condition = Collections.emptyMap();
+  private boolean visible = true;
   private Map<String, Integer> statMods = Collections.emptyMap();
-  private Map<String, Boolean> qualityMods = Collections.emptyMap();
   
   public Effect() {}
   
-  public Effect(boolean physical, boolean magical, boolean interruptable)
+  public Effect(boolean physical, boolean magical, boolean interruptable, boolean conditional)
   {
     this.physical = physical;
     this.magical = magical;
     this.interruptable = interruptable;
+    this.conditional = conditional;
+  }
+  
+  public String getDescription()
+  {
+    return this.description;
+  }
+  
+  public void setDescription(String description)
+  {
+    this.description = description;
   }
   
   public String getName()
@@ -95,23 +109,46 @@ public class Effect
   {
     this.statMods = statMods;
   }
-  
-  public Map<String, Boolean> getQualityMods()
-  {
-    return this.qualityMods;
-  }
-  
-  public void setQualityMods(Map<String, Boolean> qualityMods)
-  {
-    this.qualityMods = qualityMods;
-  }
 
 
-public Map<String, String> getCondition() {
+
+public int getOriginCharacter() {
+	return originCharacter;
+}
+
+public void setOriginCharacter(int originCharacter) {
+	this.originCharacter = originCharacter;
+}
+
+public int getTargetCharacter() {
+	return targetCharacter;
+}
+
+public void setTargetCharacter(int targetCharacter) {
+	this.targetCharacter = targetCharacter;
+}
+
+public String getCondition() {
 	return condition;
 }
 
-public void setCondition(Map<String, String> condition) {
+public void setCondition(String condition) {
 	this.condition = condition;
+}
+
+public String getQuality() {
+	return quality;
+}
+
+public void setQuality(String quality) {
+	this.quality = quality;
+}
+
+public boolean isVisible() {
+	return visible;
+}
+
+public void setVisible(boolean visible) {
+	this.visible = visible;
 }
 }

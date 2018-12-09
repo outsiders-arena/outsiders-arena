@@ -131,6 +131,6 @@ public class Character
   
   public String toString()
   {
-    return "Character [id=" + this.id + ", " + (this.avatarUrl != null ? "avatarUrl=" + this.avatarUrl + ", " : "") + (this.name != null ? "name=" + this.name + ", " : "") + (this.slot1 != null ? "slot1=" + this.slot1 + ", " : "") + (this.slot2 != null ? "slot2=" + this.slot2 + ", " : "") + (this.slot3 != null ? "slot3=" + this.slot3 + ", " : "") + (this.slot4 != null ? "slot4=" + this.slot4 + ", " : "") + (this.slota != null ? "slota=" + this.slota + ", " : "") + (this.slotb != null ? "slotb=" + this.slotb + ", " : "") + (this.slotc != null ? "slotc=" + this.slotc + ", " : "") + (this.slotd != null ? "slotd=" + this.slotd : "") + "]";
+	  return "CHARACTER = Name: " + this.name + ", Id: " + this.id;
   }
 }

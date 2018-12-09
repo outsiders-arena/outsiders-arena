@@ -1,6 +1,8 @@
 package org.outsiders.arena.handler;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
+
 import java.lang.invoke.LambdaMetafactory;
 import java.net.URI;
 import java.util.ArrayList;
@@ -36,6 +38,14 @@ public class BattleMessageService {
     protected CharacterService characterService;
     @Autowired
     protected NRG nrg;
+    
+    private Integer getDoubleMapEntryAsInt(String key, Map m) {
+    	return Integer.parseInt(m.get(key).toString().substring(0,1));
+    }
+    
+    private String getMapEntryAsString(String key, Map m) {
+    	return m.get(key).toString();
+    }
 
     public String handleMatchmakingMessage(Map valueMap) {
         Battle savedBattle = null;
@@ -53,8 +63,7 @@ public class BattleMessageService {
     	        battle.setId(this.nrg.randomInt());
     	        battle.setArenaId(arenaId);
     	        battle.setPlayerIdOne(playerId.intValue());
-    	        battle = this.battleService.save(battle);
-    	        LOG.info("SAVED BATTLE:: " + battle.toString());
+
                 ArrayList<CharacterInstance> list1 = new ArrayList<CharacterInstance>();
                 CharacterInstance i1 = new CharacterInstance();
                 CharacterInstance i2 = new CharacterInstance();
@@ -122,7 +131,7 @@ public class BattleMessageService {
 	            String playerOneJson = new Gson().toJson(playerOne);
 	            String playerTwoJson = new Gson().toJson(playerTwo);
 	            if (battleJson != null && playerOne != null && playerTwo != null && characterJson != null) {
-	                String responseJson = "{\"type\": \"INIT\", \"battle\": " + battleJson + ",\"playerOne \": " + playerOneJson + ",\"playerTwo \": " + playerTwoJson + ",\"characters \": " + characterJson + "}";
+	                String responseJson = "{\"type\": \"INIT\", \"battle\": " + battleJson + ",\"playerOne\": " + playerOneJson + ",\"playerTwo\": " + playerTwoJson + ",\"characters\": " + characterJson + "}";
 	                return responseJson;
 	            } else {
 	            	return new Gson().toJson("ERROR");
@@ -165,21 +174,117 @@ public class BattleMessageService {
 
     public String handleEnergyTradeMessage(Map valueMap) {
         LOG.info("Energy Trade");
-        return null;
+        int i = Integer.parseInt(valueMap.get("playerId").toString());
+        Map m = (Map) valueMap.get("spent");
+        String s = valueMap.get("chosen").toString();
+        Battle b = battleService.getByPlayerId(i);
+        
+        if (i == b.getPlayerIdOne()) {
+        	int strspd = Integer.parseInt(m.get("STRENGTH").toString().substring(0,1));
+        	int dexspd = Integer.parseInt(m.get("DEXTERITY").toString().substring(0,1));
+        	int arcspd = Integer.parseInt(m.get("ARCANA").toString().substring(0,1));
+        	int divspd = Integer.parseInt(m.get("DIVINITY").toString().substring(0,1));
+        	
+        	for (int x = strspd; x > 0; x--) {
+        		b.getPlayerOneEnergy().remove("STRENGTH");
+        	}
+        	for (int x = dexspd; x > 0; x--) {
+        		b.getPlayerOneEnergy().remove("DEXTERITY");
+        	}
+        	for (int x = arcspd; x > 0; x--) {
+        		b.getPlayerOneEnergy().remove("ARCANA");
+        	}
+        	for (int x = divspd; x > 0; x--) {
+        		b.getPlayerOneEnergy().remove("DIVINITY");
+        	}
+        	b.getPlayerOneEnergy().add(s);
+        } else {
+        	int strspd = Integer.parseInt(m.get("STRENGTH").toString().substring(0,1));
+        	int dexspd = Integer.parseInt(m.get("DEXTERITY").toString().substring(0,1));
+        	int arcspd = Integer.parseInt(m.get("ARCANA").toString().substring(0,1));
+        	int divspd = Integer.parseInt(m.get("DIVINITY").toString().substring(0,1));
+        	
+        	for (int x = strspd; x > 0; x--) {
+        		b.getPlayerTwoEnergy().remove("STRENGTH");
+        	}
+        	for (int x = dexspd; x > 0; x--) {
+        		b.getPlayerTwoEnergy().remove("DEXTERITY");
+        	}
+        	for (int x = arcspd; x > 0; x--) {
+        		b.getPlayerTwoEnergy().remove("ARCANA");
+        	}
+        	for (int x = divspd; x > 0; x--) {
+        		b.getPlayerTwoEnergy().remove("DIVINITY");
+        	}
+        	b.getPlayerTwoEnergy().add(s);
+        }
+        
+        b = battleService.save(b);
+        String responseJson = "{\"type\": \"ETRADE\", \"playerId\": " + i + ", \"battle\": " + new Gson().toJson(b) + "}";
+        return responseJson;
     }
-
+    
     public String handleTurnEndMessage(Map valueMap) {
         LOG.info("Turn End");
-        return null;
+        Integer playerId = Integer.parseInt(valueMap.get("playerId").toString());
+        Battle b = battleService.getByPlayerId(playerId);
+        //first time this happens is the record of the "end" of turn 1
+        b.setTurn(b.getTurn() + 1);
+        // do battle logic here
+        
+        // for each move, in the correct order, resolve the effects.
+        
+        // basically logic and rules for all the stats and qualities
+        
+        // deal out more energy at the end
+        if (b.getTurn() != 1) {
+	        if (playerId == b.getPlayerIdOne()) {
+	        	int count = 0;
+	        	for (CharacterInstance c : b.getPlayerTwoTeam()) {
+	        		if (!c.isDead()) {
+	        			count++;
+	        		}
+	        	}
+	        	b.getPlayerTwoEnergy().addAll(nrg.draw(count));
+	        } else {
+	        	int count = 0;
+	        	for (CharacterInstance c : b.getPlayerOneTeam()) {
+	        		if (!c.isDead()) {
+	        			count++;
+	        		}
+	        	}
+	        	b.getPlayerOneEnergy().addAll(nrg.draw(count));
+	        }
+        }
+
+        b = battleService.save(b);
+        LOG.info(b.toString());
+        String responseJson = "{\"type\": \"END\", \"playerId\": " + playerId + ", \"battle\": " + new Gson().toJson(b) + "}";
+        return responseJson;
     }
 
     public String handleTargetCheckMessage(Map valueMap) {
         LOG.info("Target Check");
-        return null;
+        int i = Integer.parseInt(valueMap.get("playerId").toString());
+
+        int p = getDoubleMapEntryAsInt("ability", valueMap);
+        Battle b = battleService.getByPlayerId(i);
+        // use i, p, and b to determine actual targets
+        
+        // set character instances as highlighted if they can be targeted (no need to save i guess?)
+        
+        String responseJson = "{\"type\": \"TCHECK\", \"playerId\": " + i + ", \"battle\": " + new Gson().toJson(b) + "}";
+        return responseJson;
     }
 
     public String handleCostCheckMessage(Map valueMap) {
         LOG.info("Cost Check");
-        return null;
+        int i = Integer.parseInt(valueMap.get("playerId").toString());
+        Battle b = battleService.getByPlayerId(i);
+        
+        Integer[] a = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+        
+        String responseJson = "{\"type\": \"CCHECK\", \"playerId\": " + i + ", \"usable\": " + new Gson().toJson(a) + "}";
+        return responseJson;
     }
 }

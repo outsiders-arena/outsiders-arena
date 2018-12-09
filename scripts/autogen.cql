@@ -5,14 +5,18 @@ CREATE KEYSPACE outsiders_arena WITH REPLICATION = {
 
 CREATE TYPE outsiders_arena.effect (
     duration int,
+    description text,
+    origincharacter int,
+    targetcharacter int,
     name text,
     interruptable boolean,
     conditional boolean,
     physical boolean,
     magical boolean,
-    condition map<text, text>,
+    visible boolean,
+    condition text,
     statmods map<text, int>,
-    qualitymods map<text, boolean>
+    quality text
 );
 
 CREATE TYPE outsiders_arena.characterinstance (
@@ -27,8 +31,9 @@ CREATE TYPE outsiders_arena.characterinstance (
 
 CREATE TYPE outsiders_arena.ability (
     cooldown int,
-    origincharacter int,
+    abilityurl text,
     name text,
+    description text,
     aoe boolean,
     self boolean,
     ally boolean,
@@ -45,6 +50,7 @@ CREATE TABLE outsiders_arena.battle (
 	id int PRIMARY KEY,
     playeronestart boolean,
     status text,
+    turn int,
     arenaid int,
     playeridone int,
     playeridtwo int,
@@ -73,9 +79,7 @@ CREATE TABLE outsiders_arena.player (
 	id int PRIMARY KEY,
     displayname text,
     avatarurl text,
-    currentarena int,
     level int
 );
 
-CREATE INDEX player_currentarena on outsiders_arena.player (currentarena);
 CREATE INDEX battle_playeridone on outsiders_arena.battle (playeridone);

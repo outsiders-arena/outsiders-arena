@@ -24,7 +24,7 @@ public class BattleServiceImpl
   {
     Iterable<Battle> battles = this.repo.findAll();
     for (Battle b : battles) {
-      if (b.getPlayerIdOne() == id) {
+      if (b.getPlayerIdOne() == id || b.getPlayerIdTwo() == id) {
         return b;
       }
     }
@@ -34,12 +34,16 @@ public class BattleServiceImpl
   public Battle getByPlayerDisplayName(String name)
   {
 	  Player player = playerService.findByDisplayName(name);
-	  for (Battle b : repo.findAll()) {
-		  if (b.getPlayerIdOne() == player.getId()) {
-			  return b;
+	  if (player != null) {
+		  for (Battle b : repo.findAll()) {
+			  if (b.getPlayerIdOne() == player.getId()) {
+				  return b;
+			  }
 		  }
+		  return null;
+	  } else {
+		  return null;
 	  }
-	  return null;
   }
   
   public Battle getByArenaId(int id)

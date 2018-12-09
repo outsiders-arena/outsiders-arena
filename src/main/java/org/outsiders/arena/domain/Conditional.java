@@ -12,5 +12,14 @@ public class Conditional {
 	public static final String BUFF = "BUFF";
 	//target an enemy non-damaging
 	public static final String DEBUFF = "DEBUFF";
+	//take any damage
+	public static final String DAMAGED = "DAMAGED";
+	//become targeted
+	public static final String TARGETED = "TARGETED";
+	//become targeted by an enemy
+	public static final String ATTACKED = "ATTACKED";
 	
+	public static String EFFECTED(String abilityName) {
+		return "EFFECTED_" + abilityName.toUpperCase();
+	}
 }

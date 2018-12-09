@@ -3,10 +3,14 @@ package org.outsiders.arena.domain;
 public class Stat
 {
   public static final String HP = "HP";
-  public static final String DAMAGE = "DAMAGE";
-  public static final String PHYSICAL_DAMAGE = "PHYSICAL_DAMAGE";
-  public static final String MAGICAL_DAMAGE = "MAGICAL_DAMAGE";
-  public static final String AFFLICTION_DAMAGE = "AFFLICTION_DAMAGE";
+  public static final String DAMAGE_IN = "DAMAGE_IN";
+  public static final String PHYSICAL_DAMAGE_IN = "PHYSICAL_DAMAGE_IN";
+  public static final String MAGICAL_DAMAGE_IN = "MAGICAL_DAMAGE_IN";
+  public static final String AFFLICTION_DAMAGE_IN = "AFFLICTION_DAMAGE_IN";
+  public static final String DAMAGE_OUT = "DAMAGE_OUT";
+  public static final String PHYSICAL_DAMAGE_OUT = "PHYSICAL_DAMAGE_OUT";
+  public static final String MAGICAL_DAMAGE_OUT = "MAGICAL_DAMAGE_OUT";
+  public static final String AFFLICTION_DAMAGE_OUT = "AFFLICTION_DAMAGE_OUT";
   public static final String COOLDOWN_ALL = "COOLDOWN_ALL";
   public static final String COOLDOWN_1 = "COOLDOWN_1";
   public static final String COOLDOWN_2 = "COOLDOWN_2";
